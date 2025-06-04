@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freight Class Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input {
+      padding: 8px;
+      width: 200px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Freight Class Calculator</h1>
+
+  <label for="weight">Weight (lbs):</label>
+  <input type="number" id="weight" required>
+
+  <label for="length">Length (inches):</label>
+  <input type="number" id="length" required>
+
+  <label for="width">Width (inches):</label>
+  <input type="number" id="width" required>
+
+  <label for="height">Height (inches):</label>
+  <input type="number" id="height" required>
+
+  <button onclick="calculateFreightClass()">Calculate</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculateFreightClass() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const length = parseFloat(document.getElementById('length').value);
+      const width = parseFloat(document.getElementById('width').value);
+      const height = parseFloat(document.getElementById('height').value);
+
+      if (!weight || !length || !width || !height) {
+        alert("Please enter all values.");
+        return;
+      }
+
+      const volume = (length * width * height) / 1728; // cubic feet
+      const density = weight / volume;
+
+      let freightClass;
+
+      if (density > 50) freightClass = 50;
+      else if (density > 35) freightClass = 55;
+      else if (density > 30) freightClass = 60;
+      else if (density > 22.5) freightClass = 65;
+      else if (density > 15) freightClass = 70;
+      else if (density > 13.5) freightClass = 77.5;
+      else if (density > 12) freightClass = 85;
+      else if (density > 10.5) freightClass = 92.5;
+      else if (density > 9) freightClass = 100;
+      else if (density > 8) freightClass = 110;
+      else if (density > 7) freightClass = 125;
+      else if (density > 6) freightClass = 150;
+      else if (density > 5) freightClass = 175;
+      else if (density > 4) freightClass = 200;
+      else if (density > 3) freightClass = 250;
+      else if (density > 2) freightClass = 300;
+      else if (density > 1) freightClass = 400;
+      else freightClass = 500;
+
+      document.getElementById('result').innerText = `Estimated Freight Class: ${freightClass}`;
+    }
+  </script>
+
+</body>
+</html>
