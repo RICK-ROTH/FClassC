@@ -1,106 +1,1583 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Freight Class Calculator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f4f4f4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    h1 {
-      color: #333;
-    }
+    <title>Water Find | Freight Calculator</title>
 
-    label {
-      display: block;
-      margin-top: 10px;
-    }
+    <style>
 
-    input {
-      padding: 8px;
-      width: 200px;
-      margin-bottom: 10px;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    button {
-      padding: 10px 15px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef1f5;
+            color: #1f2933;
+        }
 
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-  </style>
+        /* =========================
+           HEADER
+        ========================= */
+
+        .top-header {
+            background: #0b1f33;
+            color: white;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: #1479c9;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .brand-name {
+            font-size: 23px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: #b8c7d8;
+            margin-top: 3px;
+            letter-spacing: 1px;
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 13px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #2ecc71;
+        }
+
+        .internal-badge {
+            border: 1px solid #52687e;
+            padding: 7px 12px;
+            border-radius: 4px;
+            color: #dce6ef;
+            font-size: 11px;
+            letter-spacing: .7px;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .navigation {
+            background: white;
+            border-bottom: 1px solid #d7dde5;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding-left: 35px;
+            gap: 28px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #52606d;
+            font-size: 13px;
+            font-weight: bold;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            border-bottom: 3px solid transparent;
+        }
+
+        .navigation a:hover {
+            color: #1479c9;
+            border-bottom-color: #1479c9;
+        }
+
+        .navigation a.active {
+            color: #1479c9;
+            border-bottom-color: #1479c9;
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            max-width: 1450px;
+            margin: auto;
+            padding: 28px 35px 50px;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .page-heading h1 {
+            font-size: 26px;
+            color: #172b3d;
+        }
+
+        .page-heading p {
+            margin-top: 5px;
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .system-time {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* =========================
+           SLIDESHOW
+        ========================= */
+
+        .slideshow {
+            height: 250px;
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+            background: #142b3f;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 250px;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .58;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            max-width: 650px;
+        }
+
+        .slide-overlay h2 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .slide-overlay p {
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        .slide-dots {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            display: flex;
+            gap: 7px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.5);
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        /* =========================
+           DASHBOARD GRID
+        ========================= */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+            gap: 24px;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .card {
+            background: white;
+            border: 1px solid #d9e0e7;
+            border-radius: 6px;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            background: #f7f9fb;
+            border-bottom: 1px solid #d9e0e7;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            font-size: 16px;
+            color: #243b53;
+        }
+
+        .card-header span {
+            font-size: 11px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .section-title {
+            font-size: 12px;
+            color: #52606d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            border-bottom: 1px solid #e1e7ed;
+            padding-bottom: 9px;
+            margin-bottom: 18px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #52606d;
+            margin-bottom: 7px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            height: 43px;
+            padding: 0 60px 0 12px;
+            border: 1px solid #cbd5df;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+            color: #1f2933;
+            outline: none;
+            transition: border .2s, box-shadow .2s;
+        }
+
+        input:focus {
+            border-color: #1479c9;
+            box-shadow: 0 0 0 2px rgba(20,121,201,.12);
+        }
+
+        .unit {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 11px;
+            color: #718096;
+            font-weight: bold;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        button {
+            border: none;
+            border-radius: 4px;
+            height: 44px;
+            padding: 0 22px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .calculate-btn {
+            background: #1479c9;
+            color: white;
+            flex: 1;
+        }
+
+        .calculate-btn:hover {
+            background: #0d65ab;
+        }
+
+        .clear-btn {
+            background: #edf1f5;
+            color: #52606d;
+            border: 1px solid #d2dae3;
+        }
+
+        .clear-btn:hover {
+            background: #e1e7ed;
+        }
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result-card {
+            margin-top: 25px;
+            border: 1px solid #c9d9e8;
+            background: #f5faff;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .result-card.show {
+            display: block;
+        }
+
+        .result-header {
+            padding: 13px 17px;
+            background: #e8f3fc;
+            border-bottom: 1px solid #c9d9e8;
+            color: #164e78;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .result-main {
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+
+        .freight-class {
+            font-size: 46px;
+            color: #1479c9;
+            font-weight: bold;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid #dbe7f0;
+        }
+
+        .result-stat {
+            padding: 15px;
+            text-align: center;
+            border-right: 1px solid #dbe7f0;
+        }
+
+        .result-stat:last-child {
+            border-right: none;
+        }
+
+        .result-stat-label {
+            display: block;
+            color: #718096;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            margin-bottom: 5px;
+        }
+
+        .result-stat-value {
+            color: #243b53;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           SIDE PANEL
+        ========================= */
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 11px 0;
+            border-bottom: 1px solid #edf0f3;
+            font-size: 12px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #718096;
+        }
+
+        .info-value {
+            font-weight: bold;
+            color: #243b53;
+        }
+
+        .online {
+            color: #1a9b57;
+        }
+
+        /* =========================
+           REFERENCE TABLE
+        ========================= */
+
+        .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .reference-table th {
+            background: #f4f6f8;
+            color: #52606d;
+            text-align: left;
+            padding: 9px;
+            border-bottom: 1px solid #d9e0e7;
+        }
+
+        .reference-table td {
+            padding: 8px 9px;
+            border-bottom: 1px solid #edf0f3;
+            color: #52606d;
+        }
+
+        .reference-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .class-number {
+            font-weight: bold;
+            color: #1479c9;
+        }
+
+        /* =========================
+           NOTICE
+        ========================= */
+
+        .notice {
+            background: #fff8e6;
+            border: 1px solid #ead9a5;
+            color: #765d16;
+            padding: 13px;
+            border-radius: 4px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #0b1f33;
+            color: #a9b8c7;
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            margin-top: 20px;
+            letter-spacing: .4px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .top-header {
+                padding: 0 20px;
+            }
+
+            .navigation {
+                padding-left: 20px;
+                gap: 18px;
+                overflow-x: auto;
+            }
+
+            .page {
+                padding: 22px 20px 40px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header-status {
+                display: none;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .form-grid,
+            .dimension-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-stat {
+                border-right: none;
+                border-bottom: 1px solid #dbe7f0;
+            }
+
+            .result-stat:last-child {
+                border-bottom: none;
+            }
+
+            .slide-overlay h2 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
 </head>
+
 <body>
 
-  <h1>Freight Class Calculator</h1>
+<!-- =========================
+     TOP HEADER
+========================= -->
 
-  <label for="weight">Weight (lbs):</label>
-  <input type="number" id="weight" required>
+<header class="top-header">
 
-  <label for="length">Length (inches):</label>
-  <input type="number" id="length" required>
+    <div class="brand">
 
-  <label for="width">Width (inches):</label>
-  <input type="number" id="width" required>
+        <div class="brand-icon">
+            WF
+        </div>
 
-  <label for="height">Height (inches):</label>
-  <input type="number" id="height" required>
+        <div>
+            <div class="brand-name">
+                WATER FIND
+            </div>
 
-  <button onclick="calculateFreightClass()">Calculate</button>
+            <div class="brand-subtitle">
+                SHIPPING &amp; LOGISTICS OPERATIONS
+            </div>
+        </div>
 
-  <div class="result" id="result"></div>
+    </div>
 
-  <script>
+    <div class="header-status">
+
+        <div class="status">
+            <div class="status-dot"></div>
+            System Operational
+        </div>
+
+        <div class="internal-badge">
+            INTERNAL USE
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<nav class="navigation">
+
+    <a href="#" class="active">
+        Shipping
+    </a>
+
+    <a href="#">
+        Freight Calculator
+    </a>
+
+    <a href="#">
+        Shipment History
+    </a>
+
+    <a href="#">
+        Reports
+    </a>
+
+    <a href="#">
+        System Tools
+    </a>
+
+</nav>
+
+
+<!-- =========================
+     MAIN PAGE
+========================= -->
+
+<main class="page">
+
+    <div class="page-heading">
+
+        <div>
+
+            <h1>
+                Freight Operations
+            </h1>
+
+            <p>
+                Freight classification and shipment planning tools
+            </p>
+
+        </div>
+
+        <div class="system-time">
+            Shipping Module / Freight Calculator
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SLIDESHOW
+    ========================= -->
+
+    <div class="slideshow">
+
+        <div class="slide active">
+
+            <img
+                src="images/shipping.jpg"
+                alt="Shipping Operations"
+            >
+
+            <div class="slide-overlay">
+
+                <h2>
+                    Rick The Shipping GUY
+                </h2>
+
+                <p>
+                    He is the Best!!!.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="slide">
+
+            <img
+               src="images/warehouse.jpg"
+                alt="Warehouse Operations"
+            >
+
+            <div class="slide-overlay">
+
+                <h2>
+                    Verify Before You Ship... Or Don't
+                </h2>
+
+                <p>
+                    Accurate weight and dimensions help ensure proper
+                    freight classification Dumbass.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="slide">
+
+            <img
+              src="images/logistics.jpg"
+                alt="Logistics"
+            >
+
+            <div class="slide-overlay">
+
+                <h2>
+                    Keep Freight From Moving
+                </h2>
+
+                <p>
+                    Use standardized shipment information to support
+                    efficient logistics operations Somtimes.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="slide-dots">
+
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================= -->
+
+    <div class="dashboard">
+
+
+        <!-- =========================
+             CALCULATOR
+        ========================= -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    Freight Class Calculator
+                </h2>
+
+                <span>
+                    Shipping Module
+                </span>
+
+            </div>
+
+
+            <div class="card-body">
+
+
+                <div class="section-title">
+                    Package Information
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="weight">
+                            Weight
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                id="weight"
+                                placeholder="Enter weight"
+                                min="0"
+                                step="0.01"
+                            >
+
+                            <span class="unit">
+                                LBS
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="section-title">
+                    Package Dimensions
+                </div>
+
+
+                <div class="dimension-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="length">
+                            Length
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                id="length"
+                                placeholder="Enter length"
+                                min="0"
+                                step="0.01"
+                            >
+
+                            <span class="unit">
+                                IN
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="width">
+                            Width
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                id="width"
+                                placeholder="Enter width"
+                                min="0"
+                                step="0.01"
+                            >
+
+                            <span class="unit">
+                                IN
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="height">
+                            Height
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="number"
+                                id="height"
+                                placeholder="Enter height"
+                                min="0"
+                                step="0.01"
+                            >
+
+                            <span class="unit">
+                                IN
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="calculate-btn"
+                        onclick="calculateFreightClass()"
+                    >
+                        Calculate Freight Class
+                    </button>
+
+                    <button
+                        class="clear-btn"
+                        onclick="resetCalculator()"
+                    >
+                        Clear Form
+                    </button>
+
+                </div>
+
+
+                <!-- =========================
+                     RESULT
+                ========================= -->
+
+                <div
+                    class="result-card"
+                    id="resultCard"
+                >
+
+                    <div class="result-header">
+                        Classification Result
+                    </div>
+
+
+                    <div class="result-main">
+
+                        <div class="result-label">
+                            Estimated Freight Class
+                        </div>
+
+                        <div
+                            class="freight-class"
+                            id="freightClass"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+
+                    <div class="result-grid">
+
+
+                        <div class="result-stat">
+
+                            <span class="result-stat-label">
+                                Density
+                            </span>
+
+                            <span
+                                class="result-stat-value"
+                                id="densityResult"
+                            >
+                                --
+                            </span>
+
+                        </div>
+
+
+                        <div class="result-stat">
+
+                            <span class="result-stat-label">
+                                Volume
+                            </span>
+
+                            <span
+                                class="result-stat-value"
+                                id="volumeResult"
+                            >
+                                --
+                            </span>
+
+                        </div>
+
+
+                        <div class="result-stat">
+
+                            <span class="result-stat-label">
+                                Weight
+                            </span>
+
+                            <span
+                                class="result-stat-value"
+                                id="weightResult"
+                            >
+                                --
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RIGHT SIDEBAR
+        ========================= -->
+
+        <aside>
+
+
+            <!-- SYSTEM INFORMATION -->
+
+            <section class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        System Information
+                    </h2>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Application
+                        </span>
+
+                        <span class="info-value">
+                            WF-SHIP
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Module
+                        </span>
+
+                        <span class="info-value">
+                            Freight
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Status
+                        </span>
+
+                        <span class="info-value online">
+                            Online
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Version
+                        </span>
+
+                        <span class="info-value">
+                            1.0.0
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FREIGHT REFERENCE -->
+
+            <section class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Freight Class Reference
+                    </h2>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <table class="reference-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Class
+                                </th>
+
+                                <th>
+                                    Density
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+                                <td class="class-number">50</td>
+                                <td>&gt; 50 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">55</td>
+                                <td>35.01–50 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">60</td>
+                                <td>30.01–35 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">65</td>
+                                <td>22.51–30 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">70</td>
+                                <td>15.01–22.5 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">77.5</td>
+                                <td>13.51–15 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">85</td>
+                                <td>12.01–13.5 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">92.5</td>
+                                <td>10.51–12 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">100</td>
+                                <td>9.01–10.5 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">110</td>
+                                <td>8.01–9 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">125</td>
+                                <td>7.01–8 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">150</td>
+                                <td>6.01–7 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">175</td>
+                                <td>5.01–6 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">200</td>
+                                <td>4.01–5 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">250</td>
+                                <td>3.01–4 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">300</td>
+                                <td>2.01–3 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">400</td>
+                                <td>1.01–2 PCF</td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-number">500</td>
+                                <td>1 PCF or less</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- NOTICE -->
+
+            <div class="notice">
+
+                <strong>Operational Notice:</strong><br>
+
+                Freight class results are estimates based on package
+                density. Verify classification requirements against
+                applicable carrier and shipment documentation before
+                finalizing a shipment.
+
+            </div>
+
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    WATER FIND &nbsp;|&nbsp;
+    Shipping &amp; Logistics Operations
+    &nbsp;|&nbsp;
+    Internal Operations System
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    /* =========================
+       FREIGHT CLASS CALCULATOR
+    ========================= */
+
     function calculateFreightClass() {
-      const weight = parseFloat(document.getElementById('weight').value);
-      const length = parseFloat(document.getElementById('length').value);
-      const width = parseFloat(document.getElementById('width').value);
-      const height = parseFloat(document.getElementById('height').value);
 
-      if (!weight || !length || !width || !height) {
-        alert("Please enter all values.");
-        return;
-      }
+        const weight =
+            parseFloat(document.getElementById("weight").value);
 
-      const volume = (length * width * height) / 1728; // cubic feet
-      const density = weight / volume;
+        const length =
+            parseFloat(document.getElementById("length").value);
 
-      let freightClass;
+        const width =
+            parseFloat(document.getElementById("width").value);
 
-      if (density > 50) freightClass = 50;
-      else if (density > 35) freightClass = 55;
-      else if (density > 30) freightClass = 60;
-      else if (density > 22.5) freightClass = 65;
-      else if (density > 15) freightClass = 70;
-      else if (density > 13.5) freightClass = 77.5;
-      else if (density > 12) freightClass = 85;
-      else if (density > 10.5) freightClass = 92.5;
-      else if (density > 9) freightClass = 100;
-      else if (density > 8) freightClass = 110;
-      else if (density > 7) freightClass = 125;
-      else if (density > 6) freightClass = 150;
-      else if (density > 5) freightClass = 175;
-      else if (density > 4) freightClass = 200;
-      else if (density > 3) freightClass = 250;
-      else if (density > 2) freightClass = 300;
-      else if (density > 1) freightClass = 400;
-      else freightClass = 500;
+        const height =
+            parseFloat(document.getElementById("height").value);
 
-      document.getElementById('result').innerText = `Estimated Freight Class: ${freightClass}`;
+
+        /* Validate inputs */
+
+        if (
+            isNaN(weight) ||
+            isNaN(length) ||
+            isNaN(width) ||
+            isNaN(height) ||
+            weight <= 0 ||
+            length <= 0 ||
+            width <= 0 ||
+            height <= 0
+        ) {
+
+            alert(
+                "Please enter a valid weight and all package dimensions."
+            );
+
+            return;
+        }
+
+
+        /* Calculate cubic feet */
+
+        const volume =
+            (length * width * height) / 1728;
+
+
+        /* Calculate density */
+
+        const density =
+            weight / volume;
+
+
+        /* Determine freight class */
+
+        let freightClass;
+
+
+        if (density > 50) {
+
+            freightClass = 50;
+
+        } else if (density > 35) {
+
+            freightClass = 55;
+
+        } else if (density > 30) {
+
+            freightClass = 60;
+
+        } else if (density > 22.5) {
+
+            freightClass = 65;
+
+        } else if (density > 15) {
+
+            freightClass = 70;
+
+        } else if (density > 13.5) {
+
+            freightClass = 77.5;
+
+        } else if (density > 12) {
+
+            freightClass = 85;
+
+        } else if (density > 10.5) {
+
+            freightClass = 92.5;
+
+        } else if (density > 9) {
+
+            freightClass = 100;
+
+        } else if (density > 8) {
+
+            freightClass = 110;
+
+        } else if (density > 7) {
+
+            freightClass = 125;
+
+        } else if (density > 6) {
+
+            freightClass = 150;
+
+        } else if (density > 5) {
+
+            freightClass = 175;
+
+        } else if (density > 4) {
+
+            freightClass = 200;
+
+        } else if (density > 3) {
+
+            freightClass = 250;
+
+        } else if (density > 2) {
+
+            freightClass = 300;
+
+        } else if (density > 1) {
+
+            freightClass = 400;
+
+        } else {
+
+            freightClass = 500;
+
+        }
+
+
+        /* Display result */
+
+        document.getElementById("freightClass").textContent =
+            freightClass;
+
+
+        document.getElementById("densityResult").textContent =
+            density.toFixed(2) + " PCF";
+
+
+        document.getElementById("volumeResult").textContent =
+            volume.toFixed(2) + " FT³";
+
+
+        document.getElementById("weightResult").textContent =
+            weight.toFixed(2) + " LBS";
+
+
+        document
+            .getElementById("resultCard")
+            .classList.add("show");
+
     }
-  </script>
+
+
+    /* =========================
+       RESET CALCULATOR
+    ========================= */
+
+    function resetCalculator() {
+
+        document.getElementById("weight").value = "";
+
+        document.getElementById("length").value = "";
+
+        document.getElementById("width").value = "";
+
+        document.getElementById("height").value = "";
+
+
+        document
+            .getElementById("resultCard")
+            .classList.remove("show");
+
+    }
+
+
+    /* =========================
+       SLIDESHOW
+    ========================= */
+
+    let currentSlide = 0;
+
+    const slides =
+        document.querySelectorAll(".slide");
+
+    const dots =
+        document.querySelectorAll(".dot");
+
+
+    function showSlide(index) {
+
+        slides.forEach(function(slide) {
+
+            slide.classList.remove("active");
+
+        });
+
+
+        dots.forEach(function(dot) {
+
+            dot.classList.remove("active");
+
+        });
+
+
+        slides[index].classList.add("active");
+
+        dots[index].classList.add("active");
+
+    }
+
+
+    function nextSlide() {
+
+        currentSlide++;
+
+        if (currentSlide >= slides.length) {
+
+            currentSlide = 0;
+
+        }
+
+        showSlide(currentSlide);
+
+    }
+
+
+    setInterval(nextSlide, 6000);
+
+
+    /* =========================
+       ENTER KEY SUPPORT
+    ========================= */
+
+    document
+        .querySelectorAll("input")
+        .forEach(function(input) {
+
+            input.addEventListener("keydown", function(event) {
+
+                if (event.key === "Enter") {
+
+                    calculateFreightClass();
+
+                }
+
+            });
+
+        });
+
+</script>
 
 </body>
 </html>
+```
